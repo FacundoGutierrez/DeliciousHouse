@@ -1,0 +1,101 @@
+<header
+  class="sticky top-0 z-50 border-b border-espresso/8 bg-cream/95 backdrop-blur-md"
+>
+  <div
+    class="mx-auto flex max-w-6xl items-center justify-between gap-4 px-4 py-4 md:px-6"
+  >
+    <a
+      routerLink="/"
+      class="font-display text-xl font-bold tracking-tight text-espresso md:text-2xl"
+    >
+      {{ config.businessName }}
+    </a>
+
+    <nav class="hidden items-center gap-8 md:flex" [attr.aria-label]="t.nav.desktopAriaLabel">
+      @for (link of t.nav.links; track link.path) {
+        <a
+          [routerLink]="link.path"
+          routerLinkActive="text-honey font-semibold"
+          [routerLinkActiveOptions]="{ exact: link.exact }"
+          class="text-espresso-muted transition hover:text-honey"
+        >
+          {{ link.label }}
+        </a>
+      }
+    </nav>
+
+    <div class="hidden items-center gap-2 md:flex">
+      <app-cart-icon />
+      <app-button
+        [href]="config.whatsAppUrl"
+        [external]="true"
+        variant="primary"
+        size="sm"
+      >
+        {{ t.common.whatsAppButtonLabel }}
+      </app-button>
+    </div>
+
+    <button
+      type="button"
+      class="rounded-lg p-2 text-espresso md:hidden"
+      (click)="toggleMenu()"
+      [attr.aria-expanded]="menuOpen()"
+      aria-controls="mobile-nav"
+      [attr.aria-label]="t.nav.mobileToggleAriaLabel"
+    >
+      <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        @if (menuOpen()) {
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M6 18L18 6M6 6l12 12"
+          />
+        } @else {
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M4 6h16M4 12h16M4 18h16"
+          />
+        }
+      </svg>
+    </button>
+  </div>
+
+  @if (menuOpen()) {
+    <nav
+      id="mobile-nav"
+      class="border-t border-espresso/8 px-4 py-4 md:hidden"
+      [attr.aria-label]="t.nav.mobileAriaLabel"
+    >
+      <ul class="flex flex-col gap-3">
+        @for (link of t.nav.links; track link.path) {
+          <li>
+            <a
+              [routerLink]="link.path"
+              routerLinkActive="text-honey font-semibold"
+              [routerLinkActiveOptions]="{ exact: link.exact }"
+              class="block py-2 text-lg text-espresso"
+              (click)="closeMenu()"
+            >
+              {{ link.label }}
+            </a>
+          </li>
+        }
+        <li class="pt-2 flex gap-2">
+          <app-cart-icon />
+          <app-button
+            [href]="config.whatsAppUrl"
+            [external]="true"
+            variant="primary"
+            [fullWidth]="true"
+          >
+            {{ t.common.whatsAppButtonLabel }}
+          </app-button>
+        </li>
+      </ul>
+    </nav>
+  }
+</header>

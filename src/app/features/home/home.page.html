@@ -1,0 +1,135 @@
+<!-- Hero -->
+<section
+  class="relative overflow-hidden bg-gradient-to-br from-cream via-cream-dark/40 to-cream px-4 py-16 md:px-6 md:py-24"
+>
+  <div class="mx-auto grid max-w-6xl items-center gap-12 lg:grid-cols-2">
+    <div>
+      <p class="text-sm font-semibold tracking-widest text-honey uppercase">
+        {{ t.home.hero.sectionBadgeText }}
+      </p>
+      <h1 class="mt-3 text-4xl leading-tight font-bold text-espresso md:text-5xl lg:text-6xl">
+        {{ t.home.hero.mainHeadlineText }}
+      </h1>
+      <p class="mt-6 max-w-lg text-lg leading-relaxed text-espresso-muted">
+        {{ t.home.hero.introParagraphText }}
+      </p>
+      <div class="mt-8 flex flex-wrap gap-4">
+        <app-button routerLink="/menu" variant="primary" size="lg">
+        {{t.home.hero.menuCtaText}}
+        </app-button>
+        <app-button routerLink="/cart" variant="primary" size="lg">
+          {{t.home.hero.cartCtaText}}
+          </app-button>
+        <app-button
+          [href]="config.whatsAppUrl"
+          [external]="true"
+          variant="outline"
+          size="lg"
+        >
+          {{ t.home.hero.whatsAppCtaText }}
+        </app-button>
+      </div>
+    </div>
+    <div
+      class="relative hidden aspect-square max-h-[420px] overflow-hidden rounded-3xl bg-gradient-to-br from-honey/20 to-terracotta/20 lg:block"
+      aria-hidden="true"
+    >
+  
+      <div
+        class="absolute inset-0 flex items-center justify-center font-display text-6xl text-honey/40"
+      >
+      <img
+        src="/images/first.jpeg"
+      class="absolute inset-0 w-full h-full object-cover"
+    />
+       
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Featured products -->
+<section class="px-4 py-16 md:px-6 md:py-20">
+  <div class="mx-auto max-w-6xl">
+    <app-section-heading
+      [eyebrow]="t.home.featured.sectionBadgeText"
+      [title]="t.home.featured.sectionHeadingText"
+      [subtitle]="t.home.featured.sectionSupportText"
+    />
+
+    @if (productService.isLoading()) {
+      <div class="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-2">
+        @for (i of [1, 2]; track i) {
+          <app-skeleton height="card" />
+        }
+      </div>
+    } @else if (featured().length === 0) {
+      <p class="mt-10 text-center text-espresso-muted">
+        {{ t.home.featured.emptyCatalogText }}
+      </p>
+    } @else {
+      <div class="mt-10 grid gap-6 sm:grid-cols-2">
+        @for (product of featured(); track product.id) {
+          <app-product-card [product]="product" />
+        }
+      </div>
+      <div class="mt-10 text-center">
+        <app-button routerLink="/menu" variant="secondary">{{
+          t.home.featured.fullMenuCtaText
+        }}</app-button>
+      </div>
+    }
+  </div>
+</section>
+
+<!-- Story teaser -->
+<section class="bg-cream-dark/50 px-4 py-16 md:px-6 md:py-20">
+  <div class="mx-auto max-w-3xl text-center">
+    <app-section-heading
+      [centered]="true"
+      [eyebrow]="t.home.story.sectionBadgeText"
+      [title]="t.home.story.sectionHeadingText"
+      [subtitle]="t.home.story.sectionSupportText"
+    />
+    <div class="mt-8">
+      <app-button routerLink="/about" variant="outline">{{
+        t.home.story.aboutCtaText
+      }}</app-button>
+    </div>
+  </div>
+</section>
+
+<!-- Visit snippet -->
+<section class="px-4 py-16 md:px-6 md:py-20">
+  <div
+    class="mx-auto max-w-6xl rounded-3xl border border-espresso/8 bg-white p-8 shadow-sm md:p-12"
+  >
+    <div class="grid gap-8 md:grid-cols-2 md:items-center">
+      <div>
+        <h2 class="text-3xl font-semibold text-espresso">{{ t.home.visit.sectionHeadingText }}</h2>
+        <ul class="mt-6 space-y-3 text-espresso-muted">
+          <li class="flex gap-3">
+            <span class="font-semibold text-espresso">{{ t.home.visit.addressPrefixText }}</span>
+            {{ config.address }}
+          </li>
+          <li class="flex gap-3">
+            <span class="font-semibold text-espresso">{{ t.home.visit.hoursPrefixText }}</span>
+            {{ config.hours }}
+          </li>
+        </ul>
+      </div>
+      <div class="flex flex-wrap gap-4 md:justify-end">
+        <app-button routerLink="/contact" variant="primary">{{
+          t.common.contactButtonLabel
+        }}</app-button>
+        <app-button
+          [href]="config.whatsAppUrl"
+          [external]="true"
+          variant="outline"
+        >
+          {{ t.common.whatsAppButtonLabel }}
+        </app-button>
+      </div>
+    </div>
+  </div>
+</section>

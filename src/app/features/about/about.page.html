@@ -1,0 +1,78 @@
+<section
+  class="bg-gradient-to-b from-cream-dark/40 to-cream px-4 py-14 md:px-6 md:py-20"
+>
+  <div class="mx-auto max-w-3xl text-center">
+    <p class="text-sm font-semibold tracking-widest text-honey uppercase">
+      {{ t.about.hero.sectionBadgeText }}
+    </p>
+    <h1 class="mt-3 text-4xl font-bold text-espresso md:text-5xl">
+      {{ t.about.hero.mainHeadingText }}
+    </h1>
+    <p class="mt-6 text-lg leading-relaxed text-espresso-muted">
+      {{ t.about.hero.introParagraphText(config.businessName) }}
+    </p>
+  </div>
+</section>
+
+<section class="px-4 py-16 md:px-6">
+  <div class="mx-auto grid max-w-6xl gap-12 lg:grid-cols-2 lg:items-center">
+    <div>
+      <app-section-heading
+        [eyebrow]="t.about.story.originBadgeText"
+        [title]="t.about.story.originHeadingText"
+        [subtitle]="t.about.story.originSupportText"
+      />
+      <p class="mt-6 leading-relaxed text-espresso-muted">{{ t.about.story.originBodyText }}</p>
+    </div>
+    <div
+      class="rounded-3xl bg-gradient-to-br from-terracotta/15 to-honey/20 p-10 text-center"
+      aria-hidden="true"
+    >
+      <p class="font-display text-5xl text-honey/60">{{ t.about.team.memberCountText }}</p>
+      <p class="mt-2 text-lg font-semibold text-espresso">{{ t.about.team.memberCountLabelText }}</p>
+      <p class="mt-1 text-sm text-espresso-muted">{{ t.about.team.memberRolesText }}</p>
+    </div>
+  </div>
+</section>
+
+<section class="bg-white px-4 py-16 md:px-6 md:py-20">
+  <div class="mx-auto max-w-6xl">
+    <app-section-heading
+      [centered]="true"
+      [eyebrow]="t.about.values.sectionBadgeText"
+      [title]="t.about.values.sectionHeadingText"
+    />
+    <div class="mt-12 grid gap-8 md:grid-cols-3">
+      @for (value of t.about.values.cards; track value.title) {
+        <article
+          class="rounded-2xl border border-espresso/8 bg-cream p-6 text-center"
+        >
+          <span
+            class="inline-flex h-12 w-12 items-center justify-center rounded-full bg-honey/15 text-xl"
+            aria-hidden="true"
+            >{{ value.icon }}</span
+          >
+          <h3 class="mt-4 text-xl font-semibold text-espresso">{{ value.title }}</h3>
+          <p class="mt-2 text-sm leading-relaxed text-espresso-muted">
+            {{ value.description }}
+          </p>
+        </article>
+      }
+    </div>
+  </div>
+</section>
+
+<section class="px-4 py-16 md:px-6">
+  <div
+    class="mx-auto max-w-3xl rounded-3xl bg-espresso px-8 py-12 text-center text-cream md:px-12"
+  >
+    <h2 class="font-display text-3xl font-semibold">{{ t.about.cta.headingText }}</h2>
+    <p class="mt-3 text-cream/80">{{ t.about.cta.supportText }}</p>
+    <div class="mt-8 flex flex-wrap justify-center gap-4">
+      <app-button routerLink="/menu" variant="primary">{{ t.about.cta.menuCtaText }}</app-button>
+      <app-button routerLink="/contact" variant="secondary">{{
+        t.about.cta.contactCtaText
+      }}</app-button>
+    </div>
+  </div>
+</section>

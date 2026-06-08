@@ -1,3 +1,29 @@
-/* You can add global styles to this file, and also import other style files */
-
 @import 'tailwindcss';
+
+@theme {
+  --font-display: 'Playfair Display', Georgia, serif;
+  --font-sans: 'Source Sans 3', system-ui, sans-serif;
+  --color-cream: #faf6f0;
+  --color-cream-dark: #f0e8dc;
+  --color-espresso: #3d2c29;
+  --color-espresso-muted: #6b5a56;
+  --color-honey: #c47d2e;
+  --color-honey-dark: #a36624;
+  --color-terracotta: #c96b52;
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply bg-cream font-sans text-espresso antialiased;
+  }
+
+  h1,
+  h2,
+  h3 {
+    @apply font-display;
+  }
+}
