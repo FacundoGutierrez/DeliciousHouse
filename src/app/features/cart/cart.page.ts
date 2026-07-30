@@ -1,5 +1,7 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
 import { RouterLink } from '@angular/router';
+import { lastValueFrom } from 'rxjs';
 
 import { SITE_CONTENT } from '../../core/content/site-content';
 import { APP_CONFIG } from '../../core/config/app-config.token';
@@ -25,19 +27,32 @@ export class CartPage {
   protected readonly t = SITE_CONTENT;
   protected readonly config = inject(APP_CONFIG);
   protected readonly cartService = inject(CartService);
+  private readonly http = inject(HttpClient);
 
-  checkout(): void {
+  async checkout(): Promise<void> {
     const items = this.cartService.items().map((i) => ({
+      productId: Number(i.product.id),
       name: i.product.name,
-      qty: i.quantity,
-      price: i.product.price,
+      quantity: i.quantity,
+      unitPrice: i.product.price,
     }));
-    const total = this.cartService.totalCost();
-    const message = this.t.cart.whatsappOrderMessage(items, total);
-    window.open(
-      `${this.config.whatsAppUrl}?text=${encodeURIComponent(message)}`,
-      '_blank',
-    );
-    this.cartService.clear();
+
+    try {
+      await lastValueFrom(
+        this.http.post('/api/orders', { clientId: 1, items }),
+      );
+      this.cartService.clear();
+    } catch {
+      const total = this.cartService.totalCost();
+      const message = this.t.cart.whatsappOrderMessage(
+        items.map((i) => ({ name: i.name, qty: i.quantity, price: i.unitPrice })),
+        total,
+      );
+      window.open(
+        `${this.config.whatsAppUrl}?text=${encodeURIComponent(message)}`,
+        '_blank',
+      );
+      this.cartService.clear();
+    }
   }
 }

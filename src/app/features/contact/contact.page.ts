@@ -1,9 +1,11 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
 import {
   FormBuilder,
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
+import { lastValueFrom } from 'rxjs';
 
 import { SITE_CONTENT } from '../../core/content/site-content';
 import { APP_CONFIG } from '../../core/config/app-config.token';
@@ -18,8 +20,10 @@ import { SectionHeadingComponent } from '../../shared/ui/section-heading.compone
 })
 export class ContactPage {
   protected readonly t = SITE_CONTENT;
+  protected submitting = false;
 
   private readonly fb = inject(FormBuilder);
+  private readonly http = inject(HttpClient);
   protected readonly config = inject(APP_CONFIG);
 
   readonly mapsUrl =
@@ -32,17 +36,26 @@ export class ContactPage {
     message: ['', [Validators.required, Validators.minLength(10)]],
   });
 
-  onSubmit(): void {
+  async onSubmit(): Promise<void> {
     this.form.markAllAsTouched();
-    if (this.form.invalid) {
-      return;
-    }
+    if (this.form.invalid) return;
 
+    this.submitting = true;
     const { name, email, message } = this.form.getRawValue();
-    const subject = encodeURIComponent(this.t.contact.mailto.emailSubjectText(name));
-    const body = encodeURIComponent(
-      this.t.contact.mailto.emailBodyText(name, email, message),
-    );
-    window.location.href = `mailto:${this.config.email}?subject=${subject}&body=${body}`;
+
+    try {
+      await lastValueFrom(
+        this.http.post('/api/contact', { name, email, message }),
+      );
+      this.form.reset();
+    } catch {
+      const subject = encodeURIComponent(this.t.contact.mailto.emailSubjectText(name));
+      const body = encodeURIComponent(
+        this.t.contact.mailto.emailBodyText(name, email, message),
+      );
+      window.location.href = `mailto:${this.config.email}?subject=${subject}&body=${body}`;
+    } finally {
+      this.submitting = false;
+    }
   }
 }

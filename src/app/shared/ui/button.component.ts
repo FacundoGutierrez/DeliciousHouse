@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, input } from '@angular/core';
 import { RouterLink } from '@angular/router';
 
-export type ButtonVariant = 'primary' | 'secondary' | 'outline';
+export type ButtonVariant = 'primary' | 'secondary' | 'outline' | 'outline-light';
 export type ButtonSize = 'sm' | 'md' | 'lg';
 import { NgTemplateOutlet } from '@angular/common';  // 👈 add this
 
@@ -57,6 +57,8 @@ export class ButtonComponent {
       secondary: 'bg-espresso text-cream hover:bg-espresso/90',
       outline:
         'border-2 border-espresso/20 bg-transparent text-espresso hover:border-honey hover:text-honey',
+      'outline-light':
+        'border-2 border-white/40 bg-transparent text-white hover:border-white hover:bg-white/10',
     };
     const width = this.fullWidth() ? 'w-full' : '';
     return [base, sizes[this.size()], variants[this.variant()], width]

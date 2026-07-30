@@ -35,8 +35,8 @@ export const SITE_CONTENT = {
 
   home: {
     hero: {
-      sectionBadgeText: 'Panadería artesanal',
-      mainHeadlineText: 'Cookies y budines hechos a mano',
+      sectionBadgeText: 'Pastelería artesanal',
+      mainHeadlineText: 'Más que un budín. Más que una cookie',
       introParagraphText:
         'Somos un equipo de seis personas que hornea en pequeños lotes con ingredientes de calidad. Pronto abrimos las puertas de nuestro café — por ahora, endulzá tu día con lo nuestro.',
       menuCtaText: 'Ver menú',

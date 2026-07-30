@@ -26,7 +26,7 @@ export const routes: Routes = [
     loadComponent: () =>
       import('./features/cart/cart.page').then((m) => m.CartPage),
   },
-  {
+    {
     path: '**',
     redirectTo: '',
   },
